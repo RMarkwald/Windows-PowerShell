@@ -14,7 +14,7 @@ Get-ExecutionPolicy set accordingly to allow running of scripts on your system, 
 what it will do and mean for you system!
 
 
-**Module Deployment**
+# **Module Deployment**
 
 In Windows, there will be a directory C:\Users\<user's name>\Documents\WindowsPowerShell, which should have a directory called
 Modules, and a file called Microsoft.PowerShell_profile.ps1.  Microsoft.PowerShell_profile.ps1 is used to import modules each time a
@@ -26,24 +26,24 @@ folder should be called DirSync, and DirSync.psm1 should be in the DirSync direc
 C:\Users\<user's name>\Documents\WindowsPowerShell\Modules\DirSync\DirSync.psm1
 
 
-**Using from PowerShell**
+# **Using from PowerShell**
 
 Once you've got the directory stucture setup, modules in place, if you open a PowerShell window, you should be able to then type the
 Function name (which is located inside of the .psm1 file), and it should then run that Function.  For the example of the PowerShell Module
 DirSync.psm1, with a PowerShell window open, type in:  DirSync, and it should run the Function called DirSync inside of DirSync.psm1.
 
 
-**Authors**
+# **Author(s)**
 
 Ryan Markwald
 
 
-**License**
+# **License**
 
 This project is licensed under the MIT License - see the LICENSE.md file for details
 
 
-**Acknowledgments**
+# **Acknowledgments**
 
 Microsoft PowerShell Team
 Jeffrey Snover & Jason Helmick for the MVA videos on PowerShell
