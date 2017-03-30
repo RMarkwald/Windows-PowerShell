@@ -18,7 +18,9 @@ what it will do and mean for you system!
 
 In Windows, there will be a directory C:\Users\<user's name>\Documents\WindowsPowerShell, which should have a directory called
 Modules, and a file called Microsoft.PowerShell_profile.ps1.  Microsoft.PowerShell_profile.ps1 is used to import modules each time a
-PowerShell window is opened.
+PowerShell window is opened.  To do this, add something similar to yours and then save the file:
+
+Import-Module Dirsync,Test,Test1
 
 Inside the Modules directory, you should have setup a folder with the .psm1 module name.  If your module is called DirSync.psm1, the
 folder should be called DirSync, and DirSync.psm1 should be in the DirSync directory.  Your structure would be:
