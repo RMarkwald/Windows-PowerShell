@@ -13,6 +13,10 @@
    ADServerName
 .OUTPUTS
    getUser
+.NOTES
+  This PowerShell Module assumes that you are a Domain Admin, and have the Windows RSAT Tools installed
+  on your local machine, for access to Active Directory Users and Computers, and more importantly, the
+  module ActiveDirectory.
 .FUNCTIONALITY
   Find a user account based off of all or part of a user's last name.
   This will search Active Directory OU's based off of the AD server name specified
