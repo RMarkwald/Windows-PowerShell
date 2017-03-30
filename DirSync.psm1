@@ -15,7 +15,7 @@
         Status of AAD Sync on remote AAD Sync Server as either Success or AAD Sync Busy if already syncing
 #>
 
-function dirSync {
+function DirSync {
     [CmdletBinding ()]
 
     param(
