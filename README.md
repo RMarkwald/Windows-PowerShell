@@ -1,4 +1,4 @@
-#**Learning Windows PowerShell for Active Directory and Office 365**
+# **Learning Windows PowerShell for Active Directory and Office 365**
 
 I am learning to PowerShell and manage our local Active Directory, and Office 365 tenant.  I have been learning and creating scripts,
 modules, and am constantly trying to automate tasks that require logins to multiple servers, GUI's, and have everything done quickly
@@ -7,7 +7,7 @@ as I see fit.  I welcome critique and suggestions for doing things in a more eff
 something new!
 
 
-**Prerequisites**
+## **Prerequisites**
 
 Windows PowerShell
 Get-ExecutionPolicy set accordingly to allow running of scripts on your system, so make sure you are aware of changing the policy,
