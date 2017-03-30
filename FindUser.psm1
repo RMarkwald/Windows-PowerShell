@@ -1,6 +1,6 @@
 <#
 .Synopsis
-   Find user account information in Active Directory with only part of their last name
+   A PowerShell Module to find user accounts in Active Directory with all or only part of their last name
 .DESCRIPTION
    Find a user account based off of all or part of a user's last name.
    This will search Active Directory OU's to locate all users with all or
@@ -46,7 +46,7 @@ function FindUser {
       Write-Error "You've entered an invalid domain controller name, please try again!"
       Write-Output ""
       $ADServerName=$null
-      $ADServerName=Read-Host "What domain controller do you wish to connect to?"
+      $ADServerName=Read-Host "Which domain controller do you wish to search against?"
     }
 
     # Searches for the user in Active Directory using Get-ADUser and -LDAPFilter on $LastName
