@@ -20,7 +20,7 @@ In Windows, there will be a directory C:\Users\<user's name>\Documents\WindowsPo
 Modules, and a file called Microsoft.PowerShell_profile.ps1.  Microsoft.PowerShell_profile.ps1 is used to import modules each time a
 PowerShell window is opened.  To do this, add something similar to yours and then save the file:
 
-Import-Module AzureSync,Test,Test1
+Import-Module AzureSync,FindUser
 
 Inside the Modules directory, you should have setup a folder with the .psm1 module name.  If your module is called AzureSync.psm1, the
 folder should be called AzureSync, and AzureSync.psm1 should be in the AzureSync directory.  Your structure would be:
