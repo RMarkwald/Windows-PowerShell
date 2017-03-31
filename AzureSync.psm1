@@ -27,8 +27,22 @@ function AzureSync {
       [string]$ServerName
       )
 
-    $session=New-PSSession -ComputerName $ServerName
-    Invoke-Command -Session $session {
+    $i=0
+    while ($i -eq 0) {
+        $Session=New-PSSession -ComputerName $ServerName
+
+        if ($Session -eq $null) {
+            Write-Error "Could not find $ServerName, please verify the name and try again!"
+            Write-Output ""
+            $ServerName=$null
+            $ServerName=Read-Host "Please enter the AAD Sync server name"
+        }
+        else {
+            $i=1
+        }
+    }
+
+    Invoke-Command -Session $Session {
         Start-ADSyncSyncCycle -PolicyType Initial
     }
 }
