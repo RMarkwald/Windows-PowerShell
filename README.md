@@ -20,19 +20,19 @@ In Windows, there will be a directory C:\Users\<user's name>\Documents\WindowsPo
 Modules, and a file called Microsoft.PowerShell_profile.ps1.  Microsoft.PowerShell_profile.ps1 is used to import modules each time a
 PowerShell window is opened.  To do this, add something similar to yours and then save the file:
 
-Import-Module Dirsync,Test,Test1
+Import-Module AzureSync,Test,Test1
 
-Inside the Modules directory, you should have setup a folder with the .psm1 module name.  If your module is called DirSync.psm1, the
-folder should be called DirSync, and DirSync.psm1 should be in the DirSync directory.  Your structure would be:
+Inside the Modules directory, you should have setup a folder with the .psm1 module name.  If your module is called AzureSync.psm1, the
+folder should be called AzureSync, and AzureSync.psm1 should be in the AzureSync directory.  Your structure would be:
 
-C:\Users\<user's name>\Documents\WindowsPowerShell\Modules\DirSync\DirSync.psm1
+C:\Users\<user's name>\Documents\WindowsPowerShell\Modules\AzureSync\AzureSync.psm1
 
 
 ## **Using from PowerShell**
 
 Once you've got the directory stucture setup, modules in place, if you open a PowerShell window, you should be able to then type the
 Function name (which is located inside of the .psm1 file), and it should then run that Function.  For the example of the PowerShell Module
-DirSync.psm1, with a PowerShell window open, type in:  DirSync, and it should run the Function called DirSync inside of DirSync.psm1.
+AzureSync.psm1, with a PowerShell window open, type in:  AzureSync, and it should run the Function called AzureSync inside of AzureSync.psm1.
 
 
 ## **Author(s)**
