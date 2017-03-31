@@ -7,7 +7,7 @@
     to Office 365 manually.  It will connect to the AAD server specificed by the user, uses
     current user's credentials, and then performs a manual Start-ADSyncSyncCyle -PolicyType Initial
 .EXAMPLE
-    dirSync
+    AzureSync -ServerName AADServerName
     ServerName:  AADServerName
 .INPUTS
     ServerName
@@ -19,7 +19,7 @@
     module ActiveDirectory.
 #>
 
-function DirSync {
+function AzureSync {
     [CmdletBinding ()]
 
     param(
