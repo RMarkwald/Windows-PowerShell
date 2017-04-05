@@ -33,10 +33,12 @@ function FindUser {
   [CmdletBinding ()]
 
   param(
-      [Parameter(Mandatory=$True)]
+      [Parameter(Mandatory=$True,
+          HelpMessage="Enter all or part of a user's last name")]
       [string]$LastName,
 
-      [Parameter(Mandatory=$True)]
+      [Parameter(Mandatory=$True,
+          HelpMessage="Enter a valid Active Directory server name")]
       [string]$ADServerName
       )
 

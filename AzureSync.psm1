@@ -23,7 +23,8 @@ function AzureSync {
     [CmdletBinding ()]
 
     param(
-      [Parameter(Mandatory=$True)]
+      [Parameter(Mandatory=$True,
+            HelpMessage="Enter the Azure AD Sync server name")]
       [string]$ServerName
       )
 
