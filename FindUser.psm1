@@ -28,7 +28,6 @@
   stored in the $Users hast table.  This uses the Get-ADUser cmdlet, -LDAPFilter and
   specifies -Server to search Active Directory.
 #>
-
 function FindUser {
   [CmdletBinding ()]
 

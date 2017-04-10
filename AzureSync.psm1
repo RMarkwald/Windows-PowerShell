@@ -18,7 +18,6 @@
     on your local machine, for access to Active Directory Users and Computers, and more importantly, the
     module ActiveDirectory.
 #>
-
 function AzureSync {
     [CmdletBinding ()]
 
