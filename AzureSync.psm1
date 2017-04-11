@@ -7,12 +7,26 @@
     to Office 365 manually.  It will connect to the AAD server specificed by the user, uses
     current user's credentials, and then performs a manual Start-ADSyncSyncCyle -PolicyType Initial
 .EXAMPLE
-    AzureSync -ServerName AADServerName
-    ServerName:  AADServerName
+    AzureSync -ComputerName AADServerName
+.EXAMPLE
+    PS C:\Windows\system32> azuresync
+
+    cmdlet AzureSync at command pipeline position 1
+    Supply values for the following parameters:
+    (Type !? for Help.)
+    ComputerName: AzureSyncServer
 .INPUTS
-    ServerName
+    ComputerName
+.PARAMETER
+    ComputerName is the parameter for the Function AzureSync, and is a Mandatory Parameter.  It is the name
+    of the server that has the Azure Active Directory Sync service installed on it in order to sync
+    local Active Directory to Office 365.
 .OUTPUTS
     Status of AAD Sync on remote AAD Sync Server as either Success or AAD Sync Busy if already syncing
+
+    PSComputerName  RunspaceId                           Result
+    --------------  ----------                           ------
+    AzureSyncServer Unique RunspaceID listed here        Success
 .NOTES
     This PowerShell Module assumes that you are a Domain Admin, and have the Windows RSAT Tools installed
     on your local machine, for access to Active Directory Users and Computers, and more importantly, the
@@ -24,18 +38,18 @@ function AzureSync {
     param(
       [Parameter(Mandatory=$True,
             HelpMessage="Enter the Azure AD Sync server name")]
-      [string]$ServerName
+      [string]$ComputerName
       )
 
     $i=0
     while ($i -eq 0) {
-        $Session=New-PSSession -ComputerName $ServerName
+        $Session=New-PSSession -ComputerName $ComputerName
 
         if ($Session -eq $null) {
-            Write-Error "Could not find $ServerName, please verify the name and try again!"
+            Write-Error "Could not find $ComputerName, please verify the name and try again!"
             Write-Output ""
-            $ServerName=$null
-            $ServerName=Read-Host "Please enter the AAD Sync server name"
+            $ComputerName=$null
+            $ComputerName=Read-Host "Please enter the AAD Sync server name"
         }
         else {
             $i=1
