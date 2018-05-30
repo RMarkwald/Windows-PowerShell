@@ -5,7 +5,8 @@
         Script to check for Adobe Acrobat, and disble SharePoint Features.  This will prevent
         PDF files on SharePoint (on-prem and SharePoint Online) from being inadvertently
         Checked Out when a user clicks to open the file, which will not let another user open
-        or edit the file until it is manually checked back in.
+        or edit the file until it is manually checked back in.  This will also prevent a prompt
+        each time the file is opened for the user to Check Out/Check Out & Edit.
     .INPUTS
         None
     .OUTPUTS
