@@ -1,4 +1,4 @@
-# **Learning Windows PowerShell for Active Directory and Office 365**
+# **Learning Windows PowerShell, PowerShell for Active Directory, and PowerShell for Office 365**
 
 I am learning to PowerShell and manage our local Active Directory, and Office 365 tenant.  I have been learning and creating scripts,
 modules, and am constantly trying to automate tasks that require logins to multiple servers, GUI's, and have everything done quickly
