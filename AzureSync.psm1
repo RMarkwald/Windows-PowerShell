@@ -7,18 +7,18 @@
     to Office 365 manually.  It will connect to the AAD server specificed by the user, uses
     current user's credentials, and then performs a manual Start-ADSyncSyncCyle -PolicyType Initial
 .EXAMPLE
-    AzureSync -ComputerName AADServerName
+    Start-AADSync -ComputerName AADServerName
 .EXAMPLE
-    PS C:\Windows\system32> azuresync
+    PS C:\Windows\system32> Start-AADSync
 
-    cmdlet AzureSync at command pipeline position 1
+    cmdlet Start-AADSync at command pipeline position 1
     Supply values for the following parameters:
     (Type !? for Help.)
     ComputerName: AzureSyncServer
 .INPUTS
     ComputerName
 .PARAMETER
-    ComputerName is the parameter for the Function AzureSync, and is a Mandatory Parameter.  It is the name
+    ComputerName is the parameter for the Function Start-AADSync, and is a Mandatory Parameter.  It is the name
     of the server that has the Azure Active Directory Sync service installed on it in order to sync
     local Active Directory to Office 365.
 .OUTPUTS
@@ -32,26 +32,26 @@
     on your local machine, for access to Active Directory Users and Computers, and more importantly, the
     module ActiveDirectory.
 #>
-function AzureSync {
+function Start-AADSync {
     [CmdletBinding ()]
 
-    param(
+    Param(
       [Parameter(Mandatory=$True,
             HelpMessage="Enter the Azure AD Sync server name")]
       [string]$ComputerName
       )
 
     $i=0
-    while ($i -eq 0) {
+    While ($i -eq 0) {
         $Session=New-PSSession -ComputerName $ComputerName
 
-        if ($Session -eq $null) {
+        If ($Session -eq $null) {
             Write-Error "Could not find $ComputerName, please verify the name and try again!"
             Write-Output ""
             $ComputerName=$null
             $ComputerName=Read-Host "Please enter the AAD Sync server name"
         }
-        else {
+        Else {
             $i=1
         }
     }
