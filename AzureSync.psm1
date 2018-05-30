@@ -17,10 +17,6 @@
     ComputerName: AzureSyncServer
 .INPUTS
     ComputerName
-.PARAMETER
-    ComputerName is the parameter for the Function Start-AADSync, and is a Mandatory Parameter.  It is the name
-    of the server that has the Azure Active Directory Sync service installed on it in order to sync
-    local Active Directory to Office 365.
 .OUTPUTS
     Status of AAD Sync on remote AAD Sync Server as either Success or AAD Sync Busy if already syncing
 
