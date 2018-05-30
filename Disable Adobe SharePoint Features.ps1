@@ -37,7 +37,12 @@ if (-Not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 
 $regPath=@($Free11,$Free10,$Pro2015,$FreeDC,$Pro10,$Pro11)
 
+# Adobe Acrobat keyname needed to disable SharePoint Features
 $SharePointKeyName="cSharePoint"
+
+# Adobe Acrobat sub-keyname under $SharePointKeyName needed to disable SharePoint Features
+# Value of 0 means Allow current functionality
+# Value of 1 means Disable prompt for Check Out each time a PDF file is opened from SharePoint
 $Name="bDisableSharePointFeatures"
 
 if (Test-Path $DefaultPath) {
