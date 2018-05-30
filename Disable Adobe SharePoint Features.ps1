@@ -16,77 +16,65 @@
     .FUNCTIONALITY
         This is a script, not a PowerShell Module.  It is meant to automatically check and create
         the necessary Key in the Windows Registry to disable the SharePoint Features, which is a part
-        of Adobe Acrobat Reader and Pro versions.
+        of Adobe Acrobat Reader and Pro versions.  This script will need to be ran by a user with Administrator permissions,
+        otherwise it will not work.
 #>
-
 # To edit Windows Registry, we need to run PowerShell as Administrator
 # Taken from StackOverflow:  https://stackoverflow.com/questions/7690994/powershell-running-a-command-as-administrator
-if (-Not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+If (-Not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     $arguments = "& '" + $myinvocation.mycommand.definition + "'"
     Start-Process powershell -Verb runAs -ArgumentList $arguments
-    break
+    Write-Host "To make changes to the Windows Registry, this script needs to be ran as Administrator!" -ForegroundColor Red -BackgroundColor Black
+    Break
 }
+Else {
+    # Adobe Acrobat keyname needed to disable SharePoint Features
+    [string]$AdobeSPKey="cSharePoint"
 
-[string]$DefaultPath="HKLM:\SOFTWARE\Policies\Adobe"
-[string]$Free11="$DefaultPath\Acrobat Reader\11.0\FeatureLockDown"
-[string]$Free10="$DefaultPath\Acrobat Reader\10.0\FeatureLockDown"
-[string]$Pro2015="$DefaultPath\Adobe Acrobat\2015\FeatureLockDown"
-[string]$FreeDC="$DefaultPath\Acrobat Reader\DC\FeatureLockDown"
-[string]$Pro11="$DefaultPath\Adobe Acrobat\11.0\FeatureLockDown"
-[string]$Pro10="$DefaultPath\Adobe Acrobat\10.0\FeatureLockDown"
+    # Adobe Acrobat sub-keyname under $SharePointKey needed to disable SharePoint Features
+    [string]$DisableSPKey="bDisableSharePointFeatures"
 
-$regPath=@($Free11,$Free10,$Pro2015,$FreeDC,$Pro10,$Pro11)
+    # Sets default Windows Registry Path for Adobe
+    [string]$DefaultAdobePath="HKLM:\SOFTWARE\Policies\Adobe"
 
-# Adobe Acrobat keyname needed to disable SharePoint Features
-$SharePointKeyName="cSharePoint"
+    If (Test-Path $DefaultAdobePath) {
+        # Gets the names under the Adobe Key in the Registry
+        $GetAdobeKeyNames=Get-ChildItem -Path "HKLM:\SOFTWARE\Policies\Adobe\" -Recurse | Select-Object Name
 
-# Adobe Acrobat sub-keyname under $SharePointKeyName needed to disable SharePoint Features
-# Value of 0 means Allow current functionality
-# Value of 1 means Disable prompt for Check Out each time a PDF file is opened from SharePoint
-$Name="bDisableSharePointFeatures"
+        # Looks for the term FeatureLockDown (it is a Key) in $GetAdobeKeyNames, when it is matched, store that value
+        # in $AdobeKeyName
+        $AdobeKeyName=(($GetAdobeRegPath.Name) -match "FeatureLockDown$")
 
-if (Test-Path $DefaultPath) {
-    $i=0
+        # Replace HKEY_LOCAL_MACHINE with HKLM:
+        [string]$HKLMPath=$AdobeKeyName.Replace('HKEY_LOCAL_MACHINE','HKLM:')
 
-    # Checks to see if SharePoint Features are already disabled for Adobe Acrobat,
-    # if so, sets $i to 1
-    ForEach ($SharePointKey in $regPath) {
-        $version="$SharePointKey\$SharePointKeyName"
-        if (Test-Path $version) {
-            $i=1
-            break
+        # Test the path to the cSharePoint key to see if it exists, if so, skip creating it
+        # If not, create the appropriate keys and value
+        If (Test-Path "$HKLMPath\$AdobeSPKey") {
+            Write-Host "Adobe SharePoint Features are already disabled!" -ForegroundColor Green -BackgroundColor Black
         }
-        else {
-            $i=0
-        }
-    }
+        Else {
+            Write-Host "Adobe SharePoint Features are not disabled, editing Windows Registry to disable..." -ForegroundColor Yellow -BackgroundColor Black
 
-    # If $i equals 1, then the SharePoint key exists and there is no need to re-create it
-    if ($i -eq 1) {
-        Write-Output "Adobe SharePoint Features are already disabled!"
-        Write-Output "Skipping creation of Registry Key..."
-    }
-    else {
-        # If $i equals 0, the SharePoint key doesn't currently exist, so find the version of
-        # Adobe Acrobat installed, and create the cSharePoint key accordingly
-        ForEach ($version in $regPath) {
-            if (Test-Path $version) {
-                $newPath="$version\$SharePointKeyName"
-                Write-Output "Setting DWord Value of 1 for $Name at $newPath..."
-                New-Item -Path $newPath -Force | Out-Null
-                Set-ItemProperty -Path $newPath -Name $Name -Type DWord -Value 1
+            # Creates a new Key called cSharePoint under FeatureLockDown
+            Try {
+                New-Item -Path "$HKLMPath\$AdobeSPKey" -Force | Out-Null
+            }
+            Catch {
+                Write-Host "Could not create $AdobeSPKey in $HKLMPath !" -ForegroundColor Red -BackgroundColor Black
+            }
+
+            # Creates a sub-key called bDisableSharePointFeatures under cSharePoint, sets value to 1 to Disable SharePoint Features
+            Try {
+                Set-ItemProperty -Path "$HKLMPath\$AdobeSPKey" -Name $DisableSPKey -Type DWord -Value 1
+            }
+            Catch {
+                Write-Host "Could not set value for $DisableSPKey in Registry!" -ForegroundColor Red -BackgroundColor Black
             }
         }
     }
+    Else {
+        Write-Host "Could not find Adobe in the Registry, is Adobe Acrobat installed?" -BackgroundColor Black -ForegroundColor Red
+        Break
+    }
 }
-else {
-    # If Adobe is not installed, throw an error that Adobe Acrobat isn't on the system
-    Write-Error "Could not find Adobe Acrobat in the Windows Registry, is Adobe Acrobat installed???"
-}
-
-Write-Output ""
-Write-Output ""
-Write-Output "DONE!"
-Write-Output "Press any key to exit script..."
-$x=$host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-break
