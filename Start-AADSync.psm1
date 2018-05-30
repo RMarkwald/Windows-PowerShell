@@ -61,4 +61,6 @@ function Start-AADSync {
     Invoke-Command -Session $Session {
         Start-ADSyncSyncCycle -PolicyType Initial
     }
+
+    Remove-PSSession
 }
