@@ -34,12 +34,18 @@ function Start-AADSync {
     Param(
       [Parameter(Mandatory=$True,
             HelpMessage="Enter the Azure AD Sync server name")]
-      [string]$ComputerName
+      [string]$ComputerName,
+      [switch]$User
       )
 
     $i=0
     While ($i -eq 0) {
-        $Session=New-PSSession -ComputerName $ComputerName -ErrorAction SilentlyContinue -ErrorVariable NOTFOUND
+        If ($User) {
+            $Session=New-PSSession -ComputerName $ComputerName -ErrorAction SilentlyContinue -ErrorVariable NOTFOUND -Credential (Get-Credential)
+        }
+        Else {
+            $Session=New-PSSession -ComputerName $ComputerName -ErrorAction SilentlyContinue -ErrorVariable NOTFOUND
+        }
 
         If ($NOTFOUND) {
             Write-Error "Could not connect to $ComputerName, please verify the computer name and try again!"
