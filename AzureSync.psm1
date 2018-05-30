@@ -43,10 +43,10 @@ function Start-AADSync {
 
     $i=0
     While ($i -eq 0) {
-        $Session=New-PSSession -ComputerName $ComputerName
+        $Session=New-PSSession -ComputerName $ComputerName -ErrorAction SilentlyContinue -ErrorVariable NOTFOUND
 
-        If ($Session -eq $null) {
-            Write-Error "Could not find $ComputerName, please verify the name and try again!"
+        If ($NOTFOUND) {
+            Write-Error "Could not connect to $ComputerName, please verify the computer name and try again!"
             Write-Output ""
             $ComputerName=$null
             $ComputerName=Read-Host "Please enter the AAD Sync server name"
