@@ -5,9 +5,13 @@
 .DESCRIPTION
     Runs Azure Active Directory Sync (AAD Sync) to sync Active Directory on-prem
     to Office 365 manually.  It will connect to the AAD server specificed by the user, uses
-    current user's credentials, and then performs a manual Start-ADSyncSyncCyle -PolicyType Initial
+    current user's credentials, and then performs:  Start-ADSyncSyncCyle -PolicyType Initial
+    Using the -Credential parameter will prompt for a Username and Password to connect the PSSession
+    as a different user.
 .EXAMPLE
     Start-AADSync -ComputerName AADServerName
+.EXAMPLE
+    Start-AADSync -ComputerName AADServerName -Credential
 .EXAMPLE
     PS C:\Windows\system32> Start-AADSync
 
@@ -24,9 +28,6 @@
     --------------  ----------                           ------
     AzureSyncServer Unique RunspaceID listed here        Success
 .NOTES
-    This PowerShell Module assumes that you are a Domain Admin, and have the Windows RSAT Tools installed
-    on your local machine, for access to Active Directory Users and Computers, and more importantly, the
-    module ActiveDirectory.
 #>
 function Start-AADSync {
     [CmdletBinding ()]
@@ -35,12 +36,13 @@ function Start-AADSync {
       [Parameter(Mandatory=$True,
             HelpMessage="Enter the Azure AD Sync server name")]
       [string]$ComputerName,
-      [switch]$User
+      [switch]$Credential
       )
 
+    $NOTFOUND=$null
     $i=0
     While ($i -eq 0) {
-        If ($User) {
+        If ($Credential) {
             $Session=New-PSSession -ComputerName $ComputerName -ErrorAction SilentlyContinue -ErrorVariable NOTFOUND -Credential (Get-Credential)
         }
         Else {
@@ -61,6 +63,4 @@ function Start-AADSync {
     Invoke-Command -Session $Session {
         Start-ADSyncSyncCycle -PolicyType Initial
     }
-
-    Remove-PSSession
 }
